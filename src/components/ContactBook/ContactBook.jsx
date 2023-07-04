@@ -6,7 +6,7 @@ import { VStack, Box, Button } from '@chakra-ui/react';
 
 function ContactBook() {
   const contacts = useSelector(state => state.contacts.contacts.items);
-  const filter = useSelector(state => state.contacts.filter);
+  // const filter = useSelector(state => state.contacts.filter);
   const dispatch = useDispatch();
   const isLogged = useSelector(state => state.auth.auth.isLogged);
 
