@@ -16,15 +16,15 @@ function ContactBook() {
     }
   }, [dispatch, isLogged]);
 
-const getFilteredContacts = () => {
-  const filterNormalized = filter.toLowerCase();
-  return contacts.filter(
-    contact =>
-      contact.name && contact.name.toLowerCase().includes(filterNormalized)
-  );
+// const getFilteredContacts = () => {
+//   const filterNormalized = filter.toLowerCase();
+//   return contacts.filter(
+//     contact =>
+//       contact.name && contact.name.toLowerCase().includes(filterNormalized)
+//   );
 };
 
-  const filteredContacts = getFilteredContacts();
+  // const filteredContacts = getFilteredContacts();
 
   const handleDeleteContact = contactId => {
     dispatch(deleteContact(contactId));
