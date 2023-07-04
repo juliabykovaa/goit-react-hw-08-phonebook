@@ -13,7 +13,7 @@ const handleRejected = (state, { payload }) => {
 };
 
 const contactSlice = createSlice({
-  name: 'contact',
+  name: 'contacts',
   initialState,
   reducers: {
     setFilter: (state, { payload }) => {
