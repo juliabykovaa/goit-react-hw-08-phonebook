@@ -59,8 +59,10 @@ export const fetchContacts = createAsyncThunk(
       const token = getState().auth.auth.accessToken;
       if (token) {
         setToken(`Bearer ${token}`);
-        const contacts = await instance.get('/contacts');
-        return contacts.data;
+        const response = await instance.get('/contacts');
+        console.log('response.data', response.data)
+        return response.data;
+        
       } else {
         throw new Error('Unauthorized');
       }

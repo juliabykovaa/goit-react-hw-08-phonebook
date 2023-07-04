@@ -13,7 +13,6 @@ function ContactBook() {
   useEffect(() => {
     if (isLogged) {
       dispatch(fetchContacts());
-      console.log('contacts', contacts)
     }
   }, [dispatch, isLogged]);
 
@@ -34,7 +33,7 @@ const getFilteredContacts = () => {
   return (
     <>
       <VStack spacing={8} mt={4} align="stretch">
-        {filteredContacts.map(contact => (
+        {contacts.map(contact => (
           <Box key={contact.id} display="flex" alignItems="center">
             <p>
               {contact.name}: {contact.number}
