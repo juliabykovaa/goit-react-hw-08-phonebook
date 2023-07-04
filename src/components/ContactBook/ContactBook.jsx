@@ -5,26 +5,23 @@ import { VStack, Box, Button } from '@chakra-ui/react';
 
 
 function ContactBook() {
-  const contacts = useSelector(state => state.contacts.contacts);
+  const contacts = useSelector(state => state.contacts.contacts.items);
   const filter = useSelector(state => state.contacts.filter);
-  console.log('contacts', contacts)
   const dispatch = useDispatch();
   const isLogged = useSelector(state => state.auth.auth.isLogged);
 
   useEffect(() => {
     if (isLogged) {
       dispatch(fetchContacts());
-
     }
   }, [dispatch, isLogged]);
 
-const getFilteredContacts = () => {
-  const filterNormalized = filter.toLowerCase();
-  return contacts.filter(
-    contact =>
-      contact.name && contact.name.toLowerCase().includes(filterNormalized)
-  );
-};
+  const getFilteredContacts = () => {
+    const filterNormalized = filter.toLowerCase();
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filterNormalized)
+    );
+  };
 
   const filteredContacts = getFilteredContacts();
 
