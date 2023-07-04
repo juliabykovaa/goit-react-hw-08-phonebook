@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { logIn } from 'store/thunk';
 import {
@@ -77,7 +77,7 @@ export const Login = () => {
           <Button type="submit" colorScheme="blue" mb={4}>
             Log In
           </Button>
-          <ChakraLink as={Link} to="/register">
+          <ChakraLink as={Link} to="/signup">
             Sign Up
           </ChakraLink>
         </Stack>
