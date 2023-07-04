@@ -22,7 +22,7 @@ function ContactBook() {
 //     contact =>
 //       contact.name && contact.name.toLowerCase().includes(filterNormalized)
 //   );
-};
+// };
 
   // const filteredContacts = getFilteredContacts();
 
