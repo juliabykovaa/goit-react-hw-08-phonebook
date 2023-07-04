@@ -13,6 +13,7 @@ function ContactBook() {
   useEffect(() => {
     if (isLogged) {
       dispatch(fetchContacts());
+      console.log('contacts', contacts)
     }
   }, [dispatch, isLogged]);
 
