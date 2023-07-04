@@ -1,13 +1,20 @@
-import React from 'react';
-import { ContactList, ContactItem, DeleteButton } from './ContactBook.styled';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact } from 'store/thunk';
+import { deleteContact, fetchContacts } from 'store/thunk';
+import { VStack, Box, Button } from '@chakra-ui/react';
+
 
 function ContactBook() {
   const contacts = useSelector(state => state.contacts.contacts.items);
-  console.log('contacts', contacts)
   const filter = useSelector(state => state.contacts.filter);
   const dispatch = useDispatch();
+  const isLogged = useSelector(state => state.auth.auth.isLogged);
+
+  useEffect(() => {
+    if (isLogged) {
+      dispatch(fetchContacts());
+    }
+  }, [dispatch, isLogged]);
 
   const getFilteredContacts = () => {
     const filterNormalized = filter.toLowerCase();
@@ -24,18 +31,22 @@ function ContactBook() {
 
   return (
     <>
-      <ContactList>
+      <VStack spacing={8} mt={4} align="stretch">
         {filteredContacts.map(contact => (
-          <ContactItem key={contact.id}>
+          <Box key={contact.id} display="flex" alignItems="center">
             <p>
               {contact.name}: {contact.number}
             </p>
-            <DeleteButton onClick={() => handleDeleteContact(contact.id)}>
+             <Box flex="1" />
+            <Button
+              onClick={() => handleDeleteContact(contact.id)}
+              ml={6} 
+            >
               X
-            </DeleteButton>
-          </ContactItem>
+            </Button>
+          </Box>
         ))}
-      </ContactList>
+      </VStack>
     </>
   );
 }

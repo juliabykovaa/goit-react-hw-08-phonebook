@@ -1,55 +1,53 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {  logIn,  signUp } from './thunk';
+import { logIn, signUp } from './thunk';
 
-const initialState = {
+const initialAuthState = {
   auth: {
-    user: { nickname: '', email: '' },
-
-    accessToken: '',
-    isLoading: false,
-    isLogged: false,
+    user: { name: '', email: '' },
+    accessToken: localStorage.getItem('token') || '',
+    isLogged: !!localStorage.getItem('token'),
     error: '',
+    isContactBookVisible: false,
   },
 };
 
 const handlePending = state => {
-  state.isLoading = true;
-  state.error = '';
+  state.auth.error = '';
 };
 
 const handleRejected = (state, { error, payload }) => {
-  state.isLoading = false;
-  state.error = error ? error.message : payload;
+  state.auth.error = error ? error.message : payload;
 };
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState,
-    reducers: {
-        logOut: (state) => {
-            state.auth.accessToken = '';
-            state.auth.isLogged = false;
-            state.auth.isLoading = false;
-        }
+  initialState: initialAuthState,
+  reducers: {
+    logingOut: state => {
+      state.auth.accessToken = '';
+      state.auth.isLogged = false;
+    },
+    toggleContactBookVisibility: state => {
+      state.isContactBookVisible = !state.true;
+    },
   },
   extraReducers: builder => {
     builder
       .addCase(signUp.fulfilled, (state, { payload }) => {
         state.auth.user = payload.user;
         state.auth.accessToken = payload.token;
-        state.auth.isLogged = true;
+        state.auth.isLogged = false;
       })
-      .addCase(logIn.fulfilled, (state, { payload }) => {
+      .addCase(logIn.fulfilled, (state, { payload, dispatch }) => {
+        state.auth.user = payload.user;
         state.auth.accessToken = payload.token;
         state.auth.isLogged = true;
-        state.auth.isLoading = false;
       })
-      
-
       .addMatcher(({ type }) => type.endsWith('/pending'), handlePending)
       .addMatcher(({ type }) => type.endsWith('/rejected'), handleRejected);
   },
 });
 
 export const authReducer = authSlice.reducer;
-export const {logOut} = authSlice.actions
+export const { logingOut, toggleContactBookVisibility, setUserRegistered } =
+  authSlice.actions;

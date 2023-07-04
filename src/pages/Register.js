@@ -3,6 +3,17 @@ import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { signUp } from 'store/thunk';
+import {
+  Box,
+  Heading,
+  FormControl,
+  FormLabel,
+  Input,
+  Button,
+  Stack,
+  Link as ChakraLink,
+} from '@chakra-ui/react';
+
 
 export const Register = () => {
   const [email, setEmail] = useState('');
@@ -33,42 +44,54 @@ export const Register = () => {
       : setName(value);
   };
   return (
-    <>
-      <h1>Register</h1>
+    <Box p={4} maxW="400px" mx="auto">
+      <Heading as="h1" mb={4}>
+        Sign Up
+      </Heading>
       <form onSubmit={handleSubmit}>
-        <div>
-          <input
+        <FormControl mb={4}>
+          <FormLabel>Name</FormLabel>
+          <Input
             type="text"
             name="name"
-            id="name"
             value={name}
             onChange={handleChange}
             placeholder="Name"
             required
           />
-          <input
-            type="text"
+        </FormControl>
+        <FormControl mb={4}>
+          <FormLabel>Email</FormLabel>
+          <Input
+            type="email"
             name="email"
-            id="email"
             value={email}
             onChange={handleChange}
             placeholder="Email"
             required
           />
-
-          <input
-            type="text"
+        </FormControl>
+        <FormControl mb={4}>
+          <FormLabel>Password</FormLabel>
+          <Input
+            type="password"
             name="password"
-            id="password"
             value={password}
             onChange={handleChange}
             placeholder="Password"
             required
           />
-        </div>
-        <button type="submit">Signup</button>
-        <Link to="/login">Login</Link>
+        </FormControl>
+                <Stack direction="row" spacing={8} align="center">
+
+        <Button type="submit" colorScheme="blue" mb={4}>
+          Sign Up
+        </Button>
+        <ChakraLink as={Link} to="/login">
+          Log In
+          </ChakraLink>
+        </Stack>
       </form>
-    </>
+    </Box>
   );
 };

@@ -1,8 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { fetchContactsSuccess } from './contactSlice';
-
 
 const instance = axios.create({
   baseURL: 'https://connections-api.herokuapp.com',
@@ -30,10 +27,11 @@ export const signUp = createAsyncThunk(
 
 export const logIn = createAsyncThunk(
   'user/login',
-  async (user, { rejectWithValue }) => {
+  async (user, { rejectWithValue, dispatch }) => {
     try {
       const response = await instance.post('/users/login', user);
       setToken(`Bearer ${response.data.token}`);
+      localStorage.setItem('token', response.data.token);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -47,20 +45,25 @@ export const logOut = createAsyncThunk(
     try {
       await instance.post('/users/logout');
       delToken();
-      dispatch(logOut())
+      dispatch(logOut());
     } catch (error) {
       return rejectWithValue(error.message);
     }
   }
 );
 
-
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
-      const contacts = await instance.get('/contacts');
-      return contacts.data;
+      const token = getState().auth.auth.accessToken;
+      if (token) {
+        setToken(`Bearer ${token}`);
+        const contacts = await instance.get('/contacts');
+        return contacts.data;
+      } else {
+        throw new Error('Unauthorized');
+      }
     } catch (error) {
       return rejectWithValue(error.message);
     }
